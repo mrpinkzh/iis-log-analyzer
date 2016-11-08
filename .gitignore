@@ -5,3 +5,4 @@ packages
 bin
 obj
 build-src
+build-tests

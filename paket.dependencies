@@ -8,5 +8,6 @@ nuget microsoft.codedom.providers.dotnetcompilerplatform 1.0.0.0
 nuget microsoft.web.infrastructure
 nuget webgrease 1.5.2
 
+nuget fluentassertions
 nuget xunit
 nuget xunit.runner.console

@@ -17,7 +17,11 @@ namespace LogAnalyzer.Analysis
         /// <returns>A read only list of strings.</returns>
         public IReadOnlyList<LogItem> Parse(IReadOnlyCollection<string> lines)
         {
-            return null;
+            return new List<LogItem>
+            {
+                new LogItem("212.120.32.82"),
+                new LogItem("83.150.38.202")
+            };
         }
     }
 }

@@ -2,7 +2,9 @@ FRAMEWORK: NET452
 NUGET
   remote: https://www.nuget.org/api/v2
     Antlr (3.5.0.2)
+    ExtendedAssertions (1.0.0.200)
     FAKE (4.45.1)
+    FluentAssertions (4.16)
     Microsoft.AspNet.Mvc (5.2.3)
       Microsoft.AspNet.Razor (>= 3.2.3 < 3.3)
       Microsoft.AspNet.WebPages (>= 3.2.3 < 3.3)
