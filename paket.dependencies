@@ -2,3 +2,4 @@ framework: auto-detect
 source https://www.nuget.org/api/v2/
 
 nuget fake
+nuget Microsoft.AspNet.Mvc 5.2.3

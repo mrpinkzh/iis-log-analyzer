@@ -8,7 +8,7 @@ Target "clean" (fun _ ->
 )
 
 Target "compile-src" (fun _ -> 
-    !! "./src/**/*.csproj"
+    !! "./LogAnalyzer/*.csproj"
         |> MSBuildRelease srcBuildDir "Build"
         |> Log "compile-src output: "
 )
