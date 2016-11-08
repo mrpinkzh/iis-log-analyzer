@@ -7,7 +7,17 @@ namespace LogAnalyzer.Analysis
     {
         public IReadOnlyList<string> ReadLog(Stream stream)
         {
-            throw new System.NotImplementedException();
+            var lines = new List<string>();
+            string line;
+
+            var streamReader = new StreamReader(stream);
+            while ((line = streamReader.ReadLine()) != null)
+            {
+                lines.Add(line);
+            }
+            streamReader.Close();
+            stream.Seek(0, SeekOrigin.Begin);
+            return lines;
         }
     }
 }

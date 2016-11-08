@@ -4,11 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LogAnalyzer.Analysis;
+using LogAnalyzer = LogAnalyzer.Analysis.LogAnalyzer;
 
 namespace LogAnalyzer.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IReadLog reader;
+
+        public HomeController()
+        {
+            this.reader = new SimpleLogReader();
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -17,9 +26,10 @@ namespace LogAnalyzer.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file)
         {
-            StreamReader streamReader = new System.IO.StreamReader(file.InputStream);
-            string firstLine = streamReader.ReadLine();
-            streamReader.Close();
+            var lines = this.reader.ReadLog(file.InputStream);
+            ViewBag.FirstLine = $"FirstLine: {lines.First()}";
+            ViewBag.LineCount = $".... {lines.Count} lines .....";
+            ViewBag.LastLine  = $"LastLine:  {lines.Last()}";
             return View("Index");
         }
 
