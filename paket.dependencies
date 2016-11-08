@@ -2,7 +2,11 @@ framework: auto-detect
 source https://www.nuget.org/api/v2/
 
 nuget fake
-nuget Microsoft.AspNet.Mvc 5.2.3
+nuget microsoft.aspnet.mvc 5.2.3
+nuget microsoft.aspnet.web.optimization
+nuget microsoft.codedom.providers.dotnetcompilerplatform 1.0.0.0
+nuget microsoft.web.infrastructure
+nuget webgrease 1.5.2
 
 nuget xunit
 nuget xunit.runner.console

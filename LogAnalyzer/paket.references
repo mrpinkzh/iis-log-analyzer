@@ -1,1 +1,5 @@
-Microsoft.AspNet.Mvc
+microsoft.aspnet.mvc
+microsoft.aspnet.web.optimization
+microsoft.codedom.providers.dotnetcompilerplatform
+microsoft.web.infrastructure
+webgrease
