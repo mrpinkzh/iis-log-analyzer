@@ -50,7 +50,6 @@ namespace LogAnalyzer.Controllers
 
         public ActionResult Resolve(string ip)
         {
-            string name = "";
             try
             {
                 return Json(new { type = "content", name = resolver.ResolveName(ip) }, JsonRequestBehavior.AllowGet);
