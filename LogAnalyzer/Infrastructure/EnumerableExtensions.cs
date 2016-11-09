@@ -24,13 +24,14 @@ namespace LogAnalyzer.Infrastructure
             if (firstSectionHeader == null)
                 return new List<IEnumerable<T>>();
             int indexOfFirstSectionHeader = list.IndexOfFirst(firstSectionHeader);
+            var firstSection = list.Skip(indexOfFirstSectionHeader).ToList();
 
-            T secondSectionHeader = list.Skip(indexOfFirstSectionHeader + 1).FirstOrDefault(sectionHeaderIdentifier);
+            T secondSectionHeader = firstSection.Skip(1).FirstOrDefault(sectionHeaderIdentifier);
             if (secondSectionHeader == null)
-                return new List<IEnumerable<T>> {list.Skip(indexOfFirstSectionHeader)};
+                return new List<IEnumerable<T>> { firstSection };
 
-            int indexOfSecondSectionHeader = list.IndexOf(secondSectionHeader);
-            IEnumerable<T> itemsInFirstSection = list.Skip(indexOfFirstSectionHeader).Take(indexOfSecondSectionHeader - indexOfFirstSectionHeader);
+            int indexOfSecondSectionHeader = firstSection.Skip(1).IndexOfFirst(secondSectionHeader) + 1;
+            IEnumerable<T> itemsInFirstSection = firstSection.Take(indexOfSecondSectionHeader - indexOfFirstSectionHeader);
             var result = new List<IEnumerable<T>> { itemsInFirstSection };
             result.AddRange(list.Skip(indexOfSecondSectionHeader).Sectionize(sectionHeaderIdentifier));
             return result;

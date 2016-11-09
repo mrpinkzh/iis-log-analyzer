@@ -54,6 +54,7 @@
     <Compile Include="Analysis\Log.cs" />
     <Compile Include="Analysis\LogAnalyzer.cs" />
     <Compile Include="Analysis\LogItem.cs" />
+    <Compile Include="Analysis\NameResolver.cs" />
     <Compile Include="Analysis\SimpleLogReader.cs" />
     <Compile Include="Analysis\W3cExtendedLogFileFormatParser.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -64,6 +65,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\EnumerableExtensions.cs" />
+    <Compile Include="Models\AnalysisResult.cs" />
+    <Compile Include="Models\ClientResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -104,10 +107,10 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Result.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

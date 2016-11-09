@@ -1,0 +1,50 @@
+﻿@using LogAnalyzer.Models
+@model AnalysisResult
+
+@{
+    ViewBag.Title = "Result";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script language="javascript">
+    $(document)
+        .ready(function () {
+            $(".entry").each(function() {
+                var ip = $(this).children().first().text();
+                $(this).children().next(".name").load("/home/resolve?ip=" + ip);
+            });
+        });
+</script>
+
+<style >
+.entry td {
+    padding: 5px;
+}
+
+.title td {
+    background: lightgray;
+    font-weight: bold;
+}
+</style>
+
+<h2>Result</h2>
+
+<div>
+    @Model.Message
+</div>
+
+<table>
+    <tr class="title">
+        <td>IP-Address</td>
+        <td>FQDN</td>
+        <td>Requests</td>
+    </tr>
+    @foreach (var clientResult in Model.ClientResults)
+    {
+        <tr class="entry">
+            <td class="ip">@clientResult.Ip</td>
+            <td class="name">... loading ...</td>
+            <td>@clientResult.Count</td>
+        </tr>
+    }
+</table>
