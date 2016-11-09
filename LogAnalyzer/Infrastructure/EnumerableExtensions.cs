@@ -17,7 +17,7 @@ namespace LogAnalyzer.Infrastructure
             return -1;
         }
 
-        public static IEnumerable<IEnumerable<T>> Sectionize<T>(this IEnumerable<T> enumerable, Func<T, bool> sectionHeaderIdentifier)
+        public static IReadOnlyList<IEnumerable<T>> Sectionize<T>(this IEnumerable<T> enumerable, Func<T, bool> sectionHeaderIdentifier)
         {
             var list = enumerable.ToList();
             T firstSectionHeader = list.FirstOrDefault(sectionHeaderIdentifier);

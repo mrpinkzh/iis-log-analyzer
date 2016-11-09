@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ExAs;
 using FluentAssertions;
@@ -93,6 +94,35 @@ namespace LogAnalyzer.Analysis
             logItems.Should().Contain(item => item.Ip == "192.168.1.110")
                          .And.Contain(item => item.Ip == "10.0.0.1")
                          .And.HaveCount(2);
+        }
+
+        [Fact]
+        public void Parse_WithoutFieldsDefinition_ShouldThrow()
+        {
+            var lines = new List<string>
+            {
+                "GET 192.168.1.110 200",
+                "POST 10.0.0.1 404"
+            };
+
+            parser.Invoking(p => p.Parse(lines)).ShouldThrow<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Parse_WithLinesNoPrecededByFieldsDefinition_ShouldIgnoreTheseLines()
+        {
+            var lines = new List<string>
+            {
+                "GET 192.168.1.110 200",
+                "#Fields: c-ip date",
+                "10.0.0.1 16.11.2016"
+            };
+
+            var logItems = parser.Parse(lines);
+
+            logItems.Should().NotContain(item => item.Ip == "192.168.1.110")
+                         .And.Contain(item => item.Ip == "10.0.0.1")
+                         .And.HaveCount(1);
         }
 
         private static IReadOnlyList<string> threeLines()
