@@ -13,7 +13,7 @@ In order to run the project do the following:
  .\build.bat
  ```
  3. host the content of the .\build-src folder in your IIS.
-  * the easiest way is to open the solution IisLogAnalyzer.sln and press `Shift + F5`
+  * the easiest way is to open the solution IisLogAnalyzer.sln and press `Ctrl + F5`
 
 
 More information about Fake: https://fsharp.github.io/FAKE/
