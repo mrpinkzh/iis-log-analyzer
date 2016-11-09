@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using LogAnalyzer.Infrastructure;
 
 namespace LogAnalyzer.Analysis
 {
@@ -17,11 +20,26 @@ namespace LogAnalyzer.Analysis
         /// <returns>A read only list of strings.</returns>
         public IReadOnlyList<LogItem> Parse(IReadOnlyCollection<string> lines)
         {
-            return new List<LogItem>
-            {
-                new LogItem("212.120.32.82"),
-                new LogItem("83.150.38.202")
-            };
+            var logSections = lines.Sectionize(line => line.StartsWith("#Fields"));
+            return logSections.SelectMany(logSection =>
+                {
+                    List<string> logSectionLines = logSection.ToList();
+                    string fieldsLine = logSectionLines.FirstOrDefault(line => line.StartsWith("#Fields:"));
+                    if (fieldsLine == null)
+                        throw new InvalidOperationException(
+                            $"Tried to parse log information from text file.{Environment.NewLine}" +
+                            $"The system could not find a fields declaration line.{Environment.NewLine}" +
+                            $"In order to analyse the log file the system needs to know which fields are logged. Please add a line starting with '#Fields: '.");
+                    int indexOfClientIp = fieldsLine
+                        .Split(new[] {' '}, StringSplitOptions.None)
+                        .Skip(1)
+                        .IndexOfFirst("c-ip");
+                    var logItems = logSectionLines.Where(line => !line.StartsWith("#"))
+                                                  .Select(line => line.Split(new[] {' '}, StringSplitOptions.None))
+                                                  .Select(fields => new LogItem(fields[indexOfClientIp]));
+                    return new List<LogItem>(logItems);
+                }
+            ).ToList();
         }
     }
 }
