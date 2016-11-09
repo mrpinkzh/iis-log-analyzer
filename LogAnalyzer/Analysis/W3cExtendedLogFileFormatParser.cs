@@ -36,9 +36,9 @@ namespace LogAnalyzer.Analysis
                     List<string> logSectionLines = logSection.ToList();
                     int indexOfClientIp = logSectionLines.First(line => line.StartsWith(FieldsIdentifier))
                                                          .Split(new[] {FieldsSeparator}, StringSplitOptions.None)
-                                                         .Skip(1)
+                                                         .Skip(1) // skips the #Fields prefix
                                                          .IndexOfFirst("c-ip");
-                    var logItems = logSectionLines.Where(line => !line.StartsWith("#"))
+                    var logItems = logSectionLines.Where(line => !line.StartsWith("#")) // skip comments
                                                   .Select(line => line.Split(new[] {FieldsSeparator}, StringSplitOptions.None))
                                                   .Select(fields => new LogItem(fields[indexOfClientIp]));
                     return new List<LogItem>(logItems);
