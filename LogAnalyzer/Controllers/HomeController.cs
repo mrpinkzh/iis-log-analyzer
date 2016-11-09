@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LogAnalyzer.Analysis;
@@ -27,13 +29,22 @@ namespace LogAnalyzer.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file)
         {
-            var lines = reader.ReadLog(file.InputStream);
-            var logItems = parser.Parse(lines);
-            var clientResults = logItems.GroupBy(item => item.Ip)
-                                        .Select(group => new ClientResult(@group.Key, "", @group.Count()))
+            AnalysisResult result;
+            try
+            {
+                var lines = reader.ReadLog(file.InputStream);
+                var logItems = parser.Parse(lines);
+                var clientResults = logItems.GroupBy(item => item.Ip)
+                                        .Select(group => new ClientResult(@group.Key, @group.Count()))
                                         .ToList();
+                result = new AnalysisResult(clientResults, "Successfully analyzed the log file.");
+            }
+            catch (InvalidOperationException exception)
+            {
+                result = new AnalysisResult(new List<ClientResult>(), exception.Message);
+            }
 
-            ViewResult view = View("Result", new AnalysisResult(clientResults, "Successfully analyzed the log file."));
+            ViewResult view = View("Result", result);
             return view;
         }
 

@@ -51,8 +51,6 @@
   <ItemGroup>
     <Compile Include="Analysis\IParseLog.cs" />
     <Compile Include="Analysis\IReadLog.cs" />
-    <Compile Include="Analysis\Log.cs" />
-    <Compile Include="Analysis\LogAnalyzer.cs" />
     <Compile Include="Analysis\LogItem.cs" />
     <Compile Include="Analysis\NameResolver.cs" />
     <Compile Include="Analysis\SimpleLogReader.cs" />
