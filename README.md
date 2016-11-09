@@ -17,4 +17,5 @@ In order to run the project do the following:
 
 
 More information about Fake: https://fsharp.github.io/FAKE/
+
 More information about Paket: http://fsprojects.github.io/Paket/
