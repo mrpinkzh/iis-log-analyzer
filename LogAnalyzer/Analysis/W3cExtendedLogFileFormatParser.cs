@@ -12,6 +12,9 @@ namespace LogAnalyzer.Analysis
     /// </summary>
     public class W3cExtendedLogFileFormatParser : IParseLog
     {
+        private const string FieldsIdentifier = "#Fields";
+        private const char FieldsSeparator = ' ';
+
         /// <summary>
         /// Parses the information in the specified <paramref name="lines"/> and returns it
         /// in form of  <see cref="LogItem"/>s.
@@ -20,8 +23,7 @@ namespace LogAnalyzer.Analysis
         /// <returns>A read only list of strings.</returns>
         public IReadOnlyList<LogItem> Parse(IReadOnlyCollection<string> lines)
         {
-            Func<string, bool> fieldsIdentifier = line => line.StartsWith("#Fields");
-            var logSections = lines.Sectionize(fieldsIdentifier);
+            var logSections = lines.Sectionize(line => line.StartsWith(FieldsIdentifier));
             if (!logSections.Any())
             {
                 throw new InvalidOperationException(
@@ -32,12 +34,12 @@ namespace LogAnalyzer.Analysis
             return logSections.SelectMany(logSection =>
                 {
                     List<string> logSectionLines = logSection.ToList();
-                    int indexOfClientIp = logSectionLines.First(fieldsIdentifier)
-                                                         .Split(new[] {' '}, StringSplitOptions.None)
+                    int indexOfClientIp = logSectionLines.First(line => line.StartsWith(FieldsIdentifier))
+                                                         .Split(new[] {FieldsSeparator}, StringSplitOptions.None)
                                                          .Skip(1)
                                                          .IndexOfFirst("c-ip");
                     var logItems = logSectionLines.Where(line => !line.StartsWith("#"))
-                                                  .Select(line => line.Split(new[] {' '}, StringSplitOptions.None))
+                                                  .Select(line => line.Split(new[] {FieldsSeparator}, StringSplitOptions.None))
                                                   .Select(fields => new LogItem(fields[indexOfClientIp]));
                     return new List<LogItem>(logItems);
                 }

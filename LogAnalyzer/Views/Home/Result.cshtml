@@ -11,7 +11,12 @@
         .ready(function () {
             $(".entry").each(function() {
                 var ip = $(this).children().first().text();
-                $(this).children().next(".name").load("/home/resolve?ip=" + ip);
+                var nameElement = $(this).children().next(".name");
+                $.getJSON("/home/resolve?ip=" + ip)
+                           .done(function(data) {
+                                nameElement.addClass(data.type);
+                                nameElement.text(data.name);
+                           });
             });
         });
 </script>
@@ -24,6 +29,18 @@
 .title td {
     background: lightgray;
     font-weight: bold;
+}
+
+.name {
+    color: blue;
+}
+
+.error {
+    color: red;
+}
+
+.content {
+    color: black;
 }
 </style>
 

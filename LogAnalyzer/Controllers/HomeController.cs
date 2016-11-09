@@ -12,13 +12,13 @@ namespace LogAnalyzer.Controllers
     {
         private readonly IReadLog reader;
         private readonly IParseLog parser;
-        private readonly NameResolver nameResolver;
+        private readonly IResolveNames resolver;
 
         public HomeController()
         {
             reader = new SimpleLogReader();
             parser = new W3cExtendedLogFileFormatParser();
-            nameResolver = new NameResolver();
+            resolver = new SimpleNameResolver();
         }
 
         public ActionResult Index()
@@ -35,8 +35,8 @@ namespace LogAnalyzer.Controllers
                 var lines = reader.ReadLog(file.InputStream);
                 var logItems = parser.Parse(lines);
                 var clientResults = logItems.GroupBy(item => item.Ip)
-                                        .Select(group => new ClientResult(@group.Key, @group.Count()))
-                                        .ToList();
+                    .Select(group => new ClientResult(@group.Key, @group.Count()))
+                    .ToList();
                 result = new AnalysisResult(clientResults, "Successfully analyzed the log file.");
             }
             catch (InvalidOperationException exception)
@@ -50,7 +50,15 @@ namespace LogAnalyzer.Controllers
 
         public ActionResult Resolve(string ip)
         {
-            return new ContentResult { Content = nameResolver.ResolveName(ip) };
+            string name = "";
+            try
+            {
+                return Json(new { type = "content", name = resolver.ResolveName(ip) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { type = "error", name =  "name resolve failed" }, JsonRequestBehavior.AllowGet);
+            }            
         }
     }
 }

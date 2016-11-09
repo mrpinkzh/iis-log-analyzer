@@ -51,8 +51,9 @@
   <ItemGroup>
     <Compile Include="Analysis\IParseLog.cs" />
     <Compile Include="Analysis\IReadLog.cs" />
+    <Compile Include="Analysis\IResolveNames.cs" />
     <Compile Include="Analysis\LogItem.cs" />
-    <Compile Include="Analysis\NameResolver.cs" />
+    <Compile Include="Analysis\SimpleNameResolver.cs" />
     <Compile Include="Analysis\SimpleLogReader.cs" />
     <Compile Include="Analysis\W3cExtendedLogFileFormatParser.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
